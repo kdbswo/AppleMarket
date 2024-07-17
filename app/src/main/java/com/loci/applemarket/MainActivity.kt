@@ -3,6 +3,7 @@ package com.loci.applemarket
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,10 +20,19 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
+    private val btnBackCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            MyDialogFragment().show(supportFragmentManager, "MyDialogFragment")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        this.onBackPressedDispatcher.addCallback(this, btnBackCallback)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -50,10 +60,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-    }
-
-    override fun onBackPressed() {
-        MyDialogFragment().show(supportFragmentManager, "MyDialogFragment")
     }
 
     private fun setResultProduct() {
