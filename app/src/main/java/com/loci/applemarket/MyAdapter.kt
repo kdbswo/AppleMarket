@@ -1,12 +1,18 @@
 package com.loci.applemarket
 
-import android.icu.text.DecimalFormat
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.loci.applemarket.databinding.ItemRecyclerviewBinding
 
 class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapter.Holder>() {
+
+    interface ItemClick {
+        fun onClick(view: View, position: Int)
+    }
+
+    var itemClick: ItemClick? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ItemRecyclerviewBinding.inflate(LayoutInflater.from(parent.context))
@@ -22,15 +28,18 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.itemView.setOnClickListener {
+            itemClick?.onClick(it, position)
+        }
+
+
         holder.run {
             productImg.setImageResource(mItems[position].imageSrc)
             productName.text = mItems[position].productName
             productAddress.text = mItems[position].sellerAddress
 
-            val decimal = DecimalFormat("#,###")
             val context = holder.itemView.context
-            productPrice.text =
-                decimal.format(mItems[position].price).toString() + context.getString(R.string.won)
+            productPrice.text = context.getString(R.string.comma_number, mItems[position].price)
 
             chatCount.text = mItems[position].commentCount.toString()
             likeCount.text = mItems[position].likeCount.toString()
@@ -39,6 +48,7 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
 
     inner class Holder(binding: ItemRecyclerviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         val productImg = binding.ivItemProduct
         val productName = binding.tvItemProductName
         val productAddress = binding.tvItemProductAddress

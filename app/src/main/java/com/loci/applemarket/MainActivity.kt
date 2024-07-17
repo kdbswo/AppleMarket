@@ -1,8 +1,11 @@
 package com.loci.applemarket
 
-import android.graphics.drawable.ClipDrawable.VERTICAL
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,6 +17,7 @@ import com.loci.applemarket.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,5 +38,27 @@ class MainActivity : AppCompatActivity() {
         val decoration = DividerItemDecoration(this, RecyclerView.VERTICAL)
         binding.mainRecyclerView.addItemDecoration(decoration)
 
+        setResultProduct()
+
+        adapter.itemClick = object : MyAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra("product", ProductData.productList[position])
+                resultLauncher.launch(intent)
+//                setResult(RESULT_OK, intent)
+
+            }
+
+        }
+
+    }
+
+    private fun setResultProduct() {
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    resultLauncher.launch(intent)
+                }
+            }
     }
 }

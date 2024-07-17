@@ -1,5 +1,9 @@
 package com.loci.applemarket
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Product(
     val id: Int,
     val imageSrc: Int,
@@ -10,4 +14,4 @@ data class Product(
     val sellerAddress: String,
     var likeCount: Int,
     var commentCount: Int
-)
+): Parcelable
