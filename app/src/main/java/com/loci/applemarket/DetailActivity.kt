@@ -25,6 +25,11 @@ class DetailActivity : AppCompatActivity() {
         productData = intent.getParcelableExtra("product")!!
 
         binding.run {
+
+            ivDetailBackButton.setOnClickListener {
+                finish()
+            }
+
             ivDetailProductImage.setImageResource(productData.imageSrc)
             tvUserProfileName.text = productData.seller
             tvUserProfileAddress.text = productData.sellerAddress
@@ -32,6 +37,8 @@ class DetailActivity : AppCompatActivity() {
             tvDetailProductContents.text = productData.productIntroduce
             tvDetailProductPrice.text = getString(R.string.comma_number, productData.price)
         }
+
+
     }
 
 

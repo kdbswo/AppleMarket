@@ -45,12 +45,15 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
                 intent.putExtra("product", ProductData.productList[position])
                 resultLauncher.launch(intent)
-//                setResult(RESULT_OK, intent)
 
             }
 
         }
 
+    }
+
+    override fun onBackPressed() {
+        MyDialogFragment().show(supportFragmentManager, "MyDialogFragment")
     }
 
     private fun setResultProduct() {
