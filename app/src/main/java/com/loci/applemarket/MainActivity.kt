@@ -152,7 +152,8 @@ class MainActivity : AppCompatActivity() {
                 this.setMessage("상품을 정말 삭제하시겠습니까?")
                 this.setTitle("상품 삭제")
                 this.setPositiveButton("확인") { dialog, _ ->
-                    ProductData.productList.removeAt(position)
+//                    ProductData.productList.removeAt(position)
+                    ProductData.removeProduct(position)
                     binding.mainRecyclerView.adapter?.notifyDataSetChanged()
 
                     dialog.dismiss()
