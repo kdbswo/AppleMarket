@@ -1,19 +1,23 @@
 package com.loci.applemarket
 
+import android.icu.text.Transliterator.Position
+
 object ProductData {
     val productList = mutableListOf<Product>()
 
-    fun addProduct(){
-
-    }
-    fun updateProduct(){
-
-    }
-    fun removeProduct(){
+    fun addProduct() {
 
     }
 
-    fun allListAdd(){
+    fun updateProduct() {
+
+    }
+
+    fun removeProduct(position: Int) {
+        productList.removeAt(position)
+    }
+
+    fun allListAdd() {
         productList.add(
             Product(
                 1,

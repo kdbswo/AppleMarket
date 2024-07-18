@@ -10,6 +10,7 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
 
     interface ItemClick {
         fun onClick(view: View, position: Int)
+        fun onLongClick(view: View, position: Int)
     }
 
     var itemClick: ItemClick? = null
@@ -30,6 +31,10 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.itemView.setOnClickListener {
             itemClick?.onClick(it, position)
+        }
+        holder.itemView.setOnLongClickListener {
+            itemClick?.onLongClick(it, position)
+            return@setOnLongClickListener true
         }
 
 

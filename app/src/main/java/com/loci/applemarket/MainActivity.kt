@@ -1,5 +1,6 @@
 package com.loci.applemarket
 
+import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
@@ -13,6 +14,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.view.animation.AlphaAnimation
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -34,7 +36,10 @@ class MainActivity : AppCompatActivity() {
 
     private val btnBackCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            MyDialogFragment().show(supportFragmentManager, "MyDialogFragment")
+            MyDialogFragment("종료", "정말 종료하시겠습니까?", R.drawable.chat, "EXIT", -1).show(
+                supportFragmentManager,
+                "MyDialogFragment"
+            )
         }
     }
 
@@ -53,14 +58,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.floatingButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ABABAB")))
 
-
         binding.ivMainNotification.setOnClickListener {
             setNotificationPermission()
             notification()
         }
-        val fadeIn = AlphaAnimation(0f, 1f).apply { duration = 500 }
-        val fadeOut = AlphaAnimation(1f, 0f).apply { duration = 500 }
+
+        val fadeIn = AlphaAnimation(0f, 1f).apply { duration = 300 }
+        val fadeOut = AlphaAnimation(1f, 0f).apply { duration = 300 }
         var isTop = true
+
         binding.mainRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -103,6 +109,10 @@ class MainActivity : AppCompatActivity() {
 
             }
 
+            override fun onLongClick(view: View, position: Int) {
+                deleteDialog(position)
+            }
+
         }
 
     }
@@ -126,6 +136,28 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun deleteDialog(position: Int) {
+        val dialog: AlertDialog = this@MainActivity.let {
+            val builder: AlertDialog.Builder = AlertDialog.Builder(it)
+            builder.apply {
+                this.setMessage("상품을 정말 삭제하시겠습니까?")
+                this.setTitle("상품 삭제")
+                this.setPositiveButton("확인") { dialog, _ ->
+                    ProductData.productList.removeAt(position)
+                    binding.mainRecyclerView.adapter?.notifyDataSetChanged()
+
+                    dialog.dismiss()
+                }
+                this.setNegativeButton("취소") { dialog, _ ->
+                    dialog.cancel()
+
+                }
+            }
+            builder.create()
+        }
+        dialog.show()
     }
 
     private fun notification() {
@@ -178,8 +210,8 @@ class MainActivity : AppCompatActivity() {
 
         manager.notify(11, builder.build())
 
-
     }
+
 }
 
 
