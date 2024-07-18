@@ -1,5 +1,7 @@
 package com.loci.applemarket
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +38,7 @@ class DetailActivity : AppCompatActivity() {
             tvDetailProductTitle.text = productData.productName
             tvDetailProductContents.text = productData.productIntroduce
             tvDetailProductPrice.text = getString(R.string.comma_number, productData.price)
+
         }
 
 
