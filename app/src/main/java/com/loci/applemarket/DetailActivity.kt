@@ -1,8 +1,10 @@
 package com.loci.applemarket
 
-import android.content.res.ColorStateList
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,6 +14,7 @@ import com.loci.applemarket.databinding.ActivityDetailBinding
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var productData: Product
+    private var productPosition: Int = -1
     private val binding by lazy { ActivityDetailBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +28,14 @@ class DetailActivity : AppCompatActivity() {
         }
 
         productData = intent.getParcelableExtra("product")!!
-
+        productPosition = intent.getIntExtra("position", -1)
         binding.run {
 
             ivDetailBackButton.setOnClickListener {
+                val intent = Intent(this@DetailActivity, MainActivity::class.java)
+                intent.putExtra("product", productData)
+                intent.putExtra("position", productPosition)
+                setResult(RESULT_OK, intent)
                 finish()
             }
 
@@ -39,9 +46,33 @@ class DetailActivity : AppCompatActivity() {
             tvDetailProductContents.text = productData.productIntroduce
             tvDetailProductPrice.text = getString(R.string.comma_number, productData.price)
 
+            ivIsLikeButton.setOnClickListener {
+                isLikeToggle()
+                setIsLikeResource()
+            }
+
+            setIsLikeResource()
         }
 
 
+    }
+
+    private fun isLikeToggle() {
+        if (productData.isLike) {
+            ProductData.productList[productPosition].likeCount -= 1
+        } else {
+            ProductData.productList[productPosition].likeCount += 1
+        }
+        productData.isLike = !productData.isLike
+        ProductData.productList[productPosition].isLike = productData.isLike
+    }
+
+    private fun setIsLikeResource() {
+        if (productData.isLike) {
+            binding.ivIsLikeButton.setImageResource(R.drawable.red_heart_shape)
+        } else {
+            binding.ivIsLikeButton.setImageResource(R.drawable.heart_shape)
+        }
     }
 
 

@@ -27,7 +27,8 @@ object ProductData {
                 1000,
                 "서울 서대문구 창천동",
                 13,
-                25
+                25,
+                false
             ),
         )
 
@@ -41,7 +42,8 @@ object ProductData {
                 20000,
                 "인천 계양구 귤현동",
                 8,
-                28
+                28,
+                true
             ),
         )
         productList.add(
@@ -54,7 +56,8 @@ object ProductData {
                 10000,
                 "수성구 범어동",
                 23,
-                5
+                5,
+                false
             ),
         )
         productList.add(
@@ -67,7 +70,8 @@ object ProductData {
                 10000,
                 "해운대구 우제2동",
                 14,
-                17
+                17,
+                false
             ),
         )
         productList.add(
@@ -80,7 +84,8 @@ object ProductData {
                 150000,
                 "연제구 연산제8동",
                 22,
-                9
+                9,
+                false
             ),
         )
         productList.add(
@@ -93,7 +98,8 @@ object ProductData {
                 50000,
                 "수원시 영통구 원천동",
                 25,
-                16
+                16,
+                false
             ),
         )
         productList.add(
@@ -106,7 +112,8 @@ object ProductData {
                 150000,
                 "남구 옥동",
                 142,
-                54
+                54,
+                false
             ),
         )
         productList.add(
@@ -119,7 +126,8 @@ object ProductData {
                 180000,
                 "동래구 온천제2동",
                 31,
-                7
+                7,
+                false
             ),
         )
         productList.add(
@@ -132,7 +140,8 @@ object ProductData {
                 30000,
                 "원주시 명륜2동",
                 7,
-                28
+                28,
+                false
             ),
         )
         productList.add(
@@ -145,7 +154,8 @@ object ProductData {
                 190000,
                 "중구 동화동",
                 40,
-                6
+                6,
+                false
             ),
         )
     }

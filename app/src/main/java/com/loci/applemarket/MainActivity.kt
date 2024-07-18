@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var detailProductData: Product
 
     private val btnBackCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -103,7 +104,10 @@ class MainActivity : AppCompatActivity() {
         adapter.itemClick = object : MyAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
-                intent.putExtra("product", ProductData.productList[position])
+                detailProductData = ProductData.productList[position]
+                intent.putExtra("product", detailProductData)
+                intent.putExtra("position", position)
+
                 resultLauncher.launch(intent)
 
             }
@@ -120,7 +124,11 @@ class MainActivity : AppCompatActivity() {
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
-                    resultLauncher.launch(intent)
+                    val productData = result.data?.getParcelableExtra<Product>("product")!!
+                    val productPosition = result.data?.getIntExtra("position", -1)
+
+                    binding.mainRecyclerView.adapter?.notifyItemChanged(productPosition!!)
+
                 }
             }
     }

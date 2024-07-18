@@ -61,7 +61,7 @@
         android:id="@+id/iv_item_chat_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="302dp"
+        android:layout_marginStart="300dp"
         android:src="@drawable/chat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,9 +80,9 @@
 
     <ImageView
         android:id="@+id/iv_item_like_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/heart"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:src="@drawable/heart_shape"
         app:layout_constraintBottom_toBottomOf="@+id/tv_item_chat_count"
         app:layout_constraintStart_toEndOf="@+id/tv_item_chat_count"
         app:layout_constraintTop_toTopOf="@+id/tv_item_chat_count" />
@@ -91,6 +91,7 @@
         android:id="@+id/tv_item_like_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
         android:text="25"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_item_like_icon"

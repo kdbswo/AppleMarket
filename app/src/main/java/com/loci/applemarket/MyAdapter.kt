@@ -37,7 +37,6 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
             return@setOnLongClickListener true
         }
 
-
         holder.run {
             productImg.setImageResource(mItems[position].imageSrc)
             productName.text = mItems[position].productName
@@ -48,7 +47,14 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
 
             chatCount.text = mItems[position].commentCount.toString()
             likeCount.text = mItems[position].likeCount.toString()
+
+            when (mItems[position].isLike) {
+                true -> isLikeIcon.setImageResource(R.drawable.red_heart_shape)
+                else -> isLikeIcon.setImageResource(R.drawable.heart_shape)
+            }
         }
+
+
     }
 
     inner class Holder(binding: ItemRecyclerviewBinding) :
@@ -60,6 +66,7 @@ class MyAdapter(val mItems: MutableList<Product>) : RecyclerView.Adapter<MyAdapt
         val productPrice = binding.tvItemProductPrice
         val chatCount = binding.tvItemChatCount
         val likeCount = binding.tvItemLikeCount
+        val isLikeIcon = binding.ivItemLikeIcon
     }
 }
 
