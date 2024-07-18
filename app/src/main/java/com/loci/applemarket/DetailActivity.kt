@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.snackbar.Snackbar
 import com.loci.applemarket.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
@@ -71,6 +72,9 @@ class DetailActivity : AppCompatActivity() {
             productData.likeCount -= 1
         } else {
             productData.likeCount += 1
+            val snackbar =
+                Snackbar.make(binding.detailScrollView, "관심 목록에 추가되었습니다.", Snackbar.LENGTH_SHORT)
+            snackbar.show()
         }
         productData.isLike = !productData.isLike
         ProductData.updateProduct(productPosition, productData.likeCount, productData.isLike)
