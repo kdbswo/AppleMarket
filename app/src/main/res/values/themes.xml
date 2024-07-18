@@ -1,8 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AppleMarket" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.AppleMarket" parent="Theme.MaterialComponents.Light.DarkActionBar">
+<!--    <style name="Base.Theme.AppleMarket" parent="Theme.Material3.DayNight">-->
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/darker_gray</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.AppleMarket" parent="Base.Theme.AppleMarket" />

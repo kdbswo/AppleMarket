@@ -3,6 +3,8 @@ package com.loci.applemarket
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
@@ -10,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.animation.AlphaAnimation
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -48,11 +51,38 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        binding.floatingButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ABABAB")))
+
 
         binding.ivMainNotification.setOnClickListener {
             setNotificationPermission()
             notification()
         }
+        val fadeIn = AlphaAnimation(0f, 1f).apply { duration = 500 }
+        val fadeOut = AlphaAnimation(1f, 0f).apply { duration = 500 }
+        var isTop = true
+        binding.mainRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!binding.mainRecyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    binding.floatingButton.startAnimation(fadeOut)
+                    binding.floatingButton.visibility = View.GONE
+                    isTop = true
+                } else {
+                    if (isTop) {
+                        binding.floatingButton.visibility = View.VISIBLE
+                        binding.floatingButton.startAnimation(fadeIn)
+                        isTop = false
+                    }
+                }
+            }
+
+        })
+
+        binding.floatingButton.setOnClickListener {
+            binding.mainRecyclerView.smoothScrollToPosition(0)
+        }
+
 
         ProductData.allListAdd()
 

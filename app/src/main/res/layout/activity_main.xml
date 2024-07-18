@@ -15,6 +15,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:text="내배캠동"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/mainRecyclerView"
@@ -50,5 +51,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_main_area_name" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_button"
+        style="@style/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/floating_style"
+        android:backgroundTint="@color/white"
+        android:contentDescription="move"
+        android:src="@drawable/baseline_keyboard_tab_24"
+        android:visibility="invisible"
+        app:borderWidth="1dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="#FF0000" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
