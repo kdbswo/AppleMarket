@@ -14,7 +14,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.view.animation.AlphaAnimation
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     private val btnBackCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            MyDialogFragment("종료", "정말 종료하시겠습니까?", R.drawable.chat, "EXIT", -1).show(
+            MyDialogFragment().show(
                 supportFragmentManager,
                 "MyDialogFragment"
             )

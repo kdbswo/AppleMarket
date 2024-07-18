@@ -1,6 +1,5 @@
 package com.loci.applemarket
 
-import android.icu.text.Transliterator.Position
 
 object ProductData {
     val productList = mutableListOf<Product>()
