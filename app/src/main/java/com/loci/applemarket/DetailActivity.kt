@@ -2,6 +2,7 @@ package com.loci.applemarket
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,9 +24,11 @@ class DetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        this.onBackPressedDispatcher.addCallback(this, btnBackCallback)
 
         productData = intent.getParcelableExtra("product")!!
         productPosition = intent.getIntExtra("position", -1)
+
         binding.run {
 
             ivDetailBackButton.setOnClickListener {
@@ -51,17 +54,26 @@ class DetailActivity : AppCompatActivity() {
             setIsLikeResource()
         }
 
+    }
 
+    private val btnBackCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            val intent = Intent(this@DetailActivity, MainActivity::class.java)
+            intent.putExtra("product", productData)
+            intent.putExtra("position", productPosition)
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 
     private fun isLikeToggle() {
         if (productData.isLike) {
-            ProductData.productList[productPosition].likeCount -= 1
+            productData.likeCount -= 1
         } else {
-            ProductData.productList[productPosition].likeCount += 1
+            productData.likeCount += 1
         }
         productData.isLike = !productData.isLike
-        ProductData.productList[productPosition].isLike = productData.isLike
+        ProductData.updateProduct(productPosition, productData.likeCount, productData.isLike)
     }
 
     private fun setIsLikeResource() {

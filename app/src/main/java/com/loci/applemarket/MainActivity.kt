@@ -34,14 +34,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var detailProductData: Product
 
-    private val btnBackCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            MyDialogFragment().show(
-                supportFragmentManager,
-                "MyDialogFragment"
-            )
-        }
-    }
+    val fadeIn = AlphaAnimation(0f, 1f).apply { duration = 300 }
+    val fadeOut = AlphaAnimation(1f, 0f).apply { duration = 300 }
+    var isTop = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,41 +51,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.floatingButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ABABAB")))
-
-        binding.ivMainNotification.setOnClickListener {
-            setNotificationPermission()
-            notification()
-        }
-
-        val fadeIn = AlphaAnimation(0f, 1f).apply { duration = 300 }
-        val fadeOut = AlphaAnimation(1f, 0f).apply { duration = 300 }
-        var isTop = true
-
-        binding.mainRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!binding.mainRecyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    binding.floatingButton.startAnimation(fadeOut)
-                    binding.floatingButton.visibility = View.GONE
-                    isTop = true
-                } else {
-                    if (isTop) {
-                        binding.floatingButton.visibility = View.VISIBLE
-                        binding.floatingButton.startAnimation(fadeIn)
-                        isTop = false
-                    }
-                }
-            }
-
-        })
-
-        binding.floatingButton.setOnClickListener {
-            binding.mainRecyclerView.smoothScrollToPosition(0)
-        }
-
-
         ProductData.allListAdd()
+
+        binding.floatingButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ABABAB")))
 
         val adapter = MyAdapter(ProductData.productList)
         binding.mainRecyclerView.adapter = adapter
@@ -98,6 +61,22 @@ class MainActivity : AppCompatActivity() {
 
         val decoration = DividerItemDecoration(this, RecyclerView.VERTICAL)
         binding.mainRecyclerView.addItemDecoration(decoration)
+
+        binding.ivMainNotification.setOnClickListener {
+            setNotificationPermission()
+            notification()
+        }
+
+        binding.mainRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                setFloatingButton(newState)
+            }
+        })
+
+        binding.floatingButton.setOnClickListener {
+            binding.mainRecyclerView.smoothScrollToPosition(0)
+        }
 
         setResultProduct()
 
@@ -118,6 +97,29 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private val btnBackCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            MyDialogFragment().show(
+                supportFragmentManager,
+                "MyDialogFragment"
+            )
+        }
+    }
+
+    private fun setFloatingButton(newState: Int) {
+        if (!binding.mainRecyclerView.canScrollVertically(-1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+            binding.floatingButton.startAnimation(fadeOut)
+            binding.floatingButton.visibility = View.GONE
+            isTop = true
+        } else {
+            if (isTop) {
+                binding.floatingButton.visibility = View.VISIBLE
+                binding.floatingButton.startAnimation(fadeIn)
+                isTop = false
+            }
+        }
     }
 
     private fun setResultProduct() {

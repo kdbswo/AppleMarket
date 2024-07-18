@@ -8,8 +8,11 @@ object ProductData {
 
     }
 
-    fun updateProduct() {
-
+    fun updateProduct(position: Int, updateLikeCount: Int, updateIsLike: Boolean) {
+        productList[position].run {
+            likeCount = updateLikeCount
+            isLike = updateIsLike
+        }
     }
 
     fun removeProduct(position: Int) {
